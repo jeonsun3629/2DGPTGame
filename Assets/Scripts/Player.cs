@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public Vector2 inputVec;
     public float speed;
     public Scanner scanner;
+    public Hand[] hands;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
@@ -20,24 +21,34 @@ public class Player : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>(); 
         scanner = GetComponent<Scanner>();
+        hands = GetComponentsInChildren<Hand>(true); // true를 넣으면 비활성화된 자식도 가져옴
     }
 
-    private void Update()
+    void Update()
     {
+        if (!GameManager.Instance.isLive)
+            return;
+
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
     }
 
     void FixedUpdate()
     {
+        if (!GameManager.Instance.isLive)
+            return;
+
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
 
         // 1. 위치 이동
         rigid.MovePosition(rigid.position + nextVec);
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
+        if (!GameManager.Instance.isLive)
+            return;
+
         anim.SetFloat("Speed", inputVec.magnitude);
 
         // 2. 캐릭터 방향 전환
@@ -47,8 +58,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnMove(InputValue value)
+    void OnCollisionStay2D(Collision2D collision)
     {
-        inputVec = value.Get<Vector2>();
+        if (!GameManager.Instance.isLive)
+            return;
+
+        GameManager.Instance.health -= Time.deltaTime * 10;
+
+        if (GameManager.Instance.health < 0)
+        {
+            for (int index=2; index < transform.childCount; index++)
+            {
+                transform.GetChild(index).gameObject.SetActive(false);
+            }
+
+            anim.SetTrigger("Dead");
+            GameManager.Instance.GameOver();
+        }
     }
 }
