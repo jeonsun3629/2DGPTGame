@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     [Header("# Game Control")] // inspector 창에서 헤더를 만들어줌
-    public bool isLive;
+    public bool isLive; // 게임이 진행중인지
     public float gameTime;
     public float maxGameTime = 2 * 10f;
     [Header("# Player Infol")]
@@ -26,15 +26,33 @@ public class GameManager : MonoBehaviour
 
     //마을 맵 만들 시, 싱글톤 고려
 
+    private string currentSceneName;
+
     void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // 씬이 변경되어도 파괴되지 않게 함
+            currentSceneName = SceneManager.GetActiveScene().name; // 씬 이름을 가져옴
+            SceneManager.sceneLoaded += OnSceneLoaded; // 이벤트 핸들러를 추가
+
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject); // 이미 다른 인스턴스가 있다면 파괴
+        }
     }
 
-    public void GameStart()
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        currentSceneName = scene.name;
+    }
+
+    public void GameStart() 
     {
         health = maxHealth;
-        uiLevelUp.Select(0);
+        //uiLevelUp.Select(0);
         Resume();
 
         AudioManager.instance.PlayBGM(true);
@@ -86,18 +104,24 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!isLive)
-            return;
-
-        gameTime += Time.deltaTime;
-
-    
-        if (gameTime > maxGameTime)
+        if (currentSceneName == "Field") // 필드 씬에서는 게임 시간이 흐름
         {
-            gameTime = maxGameTime;
-            GameVictory();
+            if (!isLive)
+                return;
+
+            gameTime += Time.deltaTime;
+
+            if (gameTime > maxGameTime)
+            {
+                gameTime = maxGameTime;
+                GameVictory();
+            }
         }
-        
+        else if (currentSceneName == "Town") // 마을 씬에서는 게임 시간이 흐르지 않음
+        {
+            if (!isLive)
+                return;
+        }
     }
 
     public void GetExp()
@@ -126,4 +150,5 @@ public class GameManager : MonoBehaviour
         isLive = true;
         Time.timeScale = 1;
     }
+
 }
