@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Update called");
+        // Debug.Log("Update called");
         if (!GameManager.Instance.isLive)
             return;
 
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log("FixedUpdate called");
+        // Debug.Log("FixedUpdate called");
         if (!GameManager.Instance.isLive)
             return;
 
