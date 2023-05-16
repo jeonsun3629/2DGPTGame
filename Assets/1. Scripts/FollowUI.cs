@@ -13,6 +13,13 @@ public class FollowUI : MonoBehaviour
 
     void FixedUpdate()
     {
-        rect.position = Camera.main.WorldToScreenPoint(GameManager.Instance.player.transform.position); // 카메라의 3D 월드 좌표를 2D 스크린 좌표로 변환
+        if (Player.Instance != null)
+        {
+            rect.position = Camera.main.WorldToScreenPoint(Player.Instance.transform.position);
+        }
+        else
+        {
+            Debug.LogWarning("Player.Instance is null. Check if the Player object is in the scene.");
+        }
     }
 }

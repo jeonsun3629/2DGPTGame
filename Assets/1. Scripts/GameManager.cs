@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public Spawner spawner;
     [Header("# Game Control")] // inspector 창에서 헤더를 만들어줌
     public bool isLive; // 게임이 진행중인지
     public float gameTime;
@@ -26,14 +27,14 @@ public class GameManager : MonoBehaviour
 
     //마을 맵 만들 시, 싱글톤 고려
 
-    private string currentSceneName;
+    public string currentSceneName;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬이 변경되어도 파괴되지 않게 함
+            //DontDestroyOnLoad(gameObject); // 씬이 변경되어도 파괴되지 않게 함
             currentSceneName = SceneManager.GetActiveScene().name; // 씬 이름을 가져옴
             SceneManager.sceneLoaded += OnSceneLoaded; // 이벤트 핸들러를 추가
 
@@ -47,16 +48,53 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentSceneName = scene.name;
+
+        if (currentSceneName == "Field")
+        {
+            Spawner newSpawner = FindObjectOfType<Spawner>();
+            if (newSpawner != null)
+            {
+                spawner = newSpawner;
+                spawner.enabled = true;
+            }
+            else
+            {
+                Debug.LogWarning("Spawner not found in the Field scene. Make sure it exists and has the Spawner script.");
+            }
+        }
+        else if (currentSceneName == "Town")
+        {
+            if (spawner != null)
+            {
+                spawner.enabled = false;
+            }
+        }
+    }
+
+    public void ChangeScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
     public void GameStart() 
     {
-        health = maxHealth;
-        //uiLevelUp.Select(0);
-        Resume();
+        if (currentSceneName == "Field") // 필드 씬에서는 게임 시간이 흐름
+        {
+            health = maxHealth;
+            uiLevelUp.Select(0);
+            Resume();
 
-        AudioManager.instance.PlayBGM(true);
-        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+            AudioManager.instance.PlayBGM(true);
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        }
+        else if (currentSceneName == "Town") // 마을 씬에서는 게임 시간이 흐르지 않음
+        {
+            health = maxHealth;
+            Resume();
+
+            AudioManager.instance.PlayBGM(true);
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        }
     }
 
     public void GameOver()
@@ -99,7 +137,16 @@ public class GameManager : MonoBehaviour
 
     public void GameRetry()
     {
-        SceneManager.LoadScene("Field");
+        // 씬 전환을 위해 TransferMap 클래스를 사용합니다.
+        TransferMap transferMap = FindObjectOfType<TransferMap>();
+        if (transferMap != null)
+        {
+            transferMap.ChangeScene("Town");
+        }
+        else
+        {
+            Debug.LogWarning("TransferMap component not found. Scene change may not work correctly.");
+        }
     }
 
     void Update()

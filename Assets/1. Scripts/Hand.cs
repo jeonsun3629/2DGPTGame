@@ -17,7 +17,6 @@ public class Hand : MonoBehaviour
     void Awake()
     {
         player = GetComponentsInParent<SpriteRenderer>()[1];
-
     }
 
     void LateUpdate()

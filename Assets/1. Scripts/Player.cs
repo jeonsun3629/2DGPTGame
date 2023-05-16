@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public float speed;
     public Scanner scanner;
     public Hand[] hands;
+    public static Player Instance { get; private set; }
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
@@ -17,6 +18,17 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            // return;
+        }
+
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>(); 
@@ -78,4 +90,5 @@ public class Player : MonoBehaviour
             GameManager.Instance.GameOver();
         }
     }
+
 }
