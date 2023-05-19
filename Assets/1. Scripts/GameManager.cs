@@ -138,15 +138,16 @@ public class GameManager : MonoBehaviour
     public void GameRetry()
     {
         // 씬 전환을 위해 TransferMap 클래스를 사용합니다.
-        TransferMap transferMap = FindObjectOfType<TransferMap>();
-        if (transferMap != null)
-        {
-            transferMap.ChangeScene("Town");
-        }
-        else
-        {
-            Debug.LogWarning("TransferMap component not found. Scene change may not work correctly.");
-        }
+        //TransferMap transferMap = FindObjectOfType<TransferMap>();
+        //if (transferMap != null)
+        //{
+        //    transferMap.ChangeScene("Town");
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("TransferMap component not found. Scene change may not work correctly.");
+        //}
+        ChangeScene("Town");
     }
 
     void Update()

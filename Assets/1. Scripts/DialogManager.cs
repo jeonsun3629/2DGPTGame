@@ -5,23 +5,45 @@ using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour
 {
+    public TalkManager talkManager;
     public GameObject talkPanel;
     public Text talkText;
     public GameObject scanObject;
     public bool isAction;
+    public int talkIndex;
 
     public void Action(GameObject scanObj)
     {
-        if (isAction) // 대화중이면 대화창을 끄고 대화중이 아니면 대화창을 켠다.
+        isAction = true;
+        scanObject = scanObj;
+        ObjData objData = scanObject.GetComponent<ObjData>();
+
+        Talk(objData.id, objData.isNPC);
+
+        talkPanel.SetActive(isAction); // 대화창을 켜거나 끈다.
+    }
+
+    void Talk(int id, bool isNPC)
+    {
+        string talkData = talkManager.GetTalk(id, talkIndex);
+
+        if(talkData == null)
         {
             isAction = false;
+            talkIndex = 0;
+            return;
         }
-        else // 대화중이 아니면 대화창을 켠다.
+
+        if(isNPC)
         {
-            isAction = true;
-            scanObject = scanObj;
-            talkText.text = "이것의 이름은 " + scanObject.name + "이라고 한다.";
+            talkText.text = talkData;
         }
-        talkPanel.SetActive(!isAction); // 대화창을 켜거나 끈다.
+        else
+        {
+            talkText.text = talkData;
+        }
+
+        isAction = true;
+        talkIndex++;
     }
 }
