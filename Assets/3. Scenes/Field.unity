@@ -5991,7 +5991,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 8.518518
+  orthographic size: 9.074074
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -12346,13 +12346,13 @@ MonoBehaviour:
   spawner: {fileID: 0}
   isLive: 0
   gameTime: 0
-  maxGameTime: 180
+  maxGameTime: 90
   health: 0
   maxHealth: 100
   level: 0
   kill: 0
   exp: 0
-  nextExp: 03000000050000000a0000006400000096000000d20000001801000068010000c201000058020000
+  nextExp: 03000000050000000a00000014000000320000005a000000a0000000fa0000004001000090010000
   pool: {fileID: 1824151323}
   player: {fileID: 1198292888}
   uiLevelUp: {fileID: 545008653}
