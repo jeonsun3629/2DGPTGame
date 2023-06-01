@@ -5991,11 +5991,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-<<<<<<< HEAD
   orthographic size: 9.074074
-=======
-  orthographic size: 7.7444444
->>>>>>> a47bf84510ce77becda5889e2717d74f6e53676b
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -12356,11 +12352,7 @@ MonoBehaviour:
   level: 0
   kill: 0
   exp: 0
-<<<<<<< HEAD
   nextExp: 03000000050000000a00000014000000320000005a000000a0000000fa0000004001000090010000
-=======
-  nextExp: 03000000050000000a0000001e0000004600000078000000b4000000fa0000003601000072010000
->>>>>>> a47bf84510ce77becda5889e2717d74f6e53676b
   pool: {fileID: 1824151323}
   player: {fileID: 1198292888}
   uiLevelUp: {fileID: 545008653}
