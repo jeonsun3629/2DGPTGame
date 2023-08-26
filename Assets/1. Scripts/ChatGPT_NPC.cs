@@ -26,9 +26,11 @@ namespace OpenAI
             button.onClick.AddListener(SendReply);
 
             // Initialize the list of messages with your commands
+            messages.Add(new ChatMessage() { Role = "system", Content = "너는 AI 혹은 인공지능이라는 것을 언급하면 안된다." });
             messages.Add(new ChatMessage() { Role = "system", Content = "네 이름은 닥터 비. 너는 생명공학 의사이고 실수로 좀비 바이러스를 퍼트려 세상을 온통 좀비 천지로 만든것에 대한 죄책감을 가지고 있어." });
             messages.Add(new ChatMessage() { Role = "system", Content = "너의 지식은 그 바이러스를 멈추는데 필요하기 때문에 플레이어인 나를 도와 좀비 몸체를 이용해 새로운 동료를 만들어 주는 역할이야." });
-            messages.Add(new ChatMessage() { Role = "system", Content = "절대 너가 AI라는 말을 하지마." });
+            messages.Add(new ChatMessage() { Role = "system", Content = "내가 너의 역할을 물어보면, 너는 좀비 몸체를 이용해 새로운 동료를 만들어 줄 수 있다고 대답해" });
+
 
             inputField.gameObject.SetActive(false);
             button.gameObject.SetActive(false);
@@ -63,7 +65,7 @@ namespace OpenAI
         {
             var newMessage = new ChatMessage()
             {
-                Role = "assistant",
+                Role = "user",
                 Content = inputField.text
             };
 
