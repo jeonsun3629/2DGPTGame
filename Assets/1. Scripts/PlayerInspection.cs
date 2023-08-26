@@ -1,3 +1,4 @@
+using OpenAI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class PlayerInspection : MonoBehaviour
     }
     void Update()
     {
-        //Scan Object
+        // Scan Object
         if (Input.GetButtonDown("Jump") && scanObject != null)
         {
             dialogManager.Action(scanObject);
@@ -36,6 +37,5 @@ public class PlayerInspection : MonoBehaviour
         {
             scanObject = null;
         }
-
     }
 }

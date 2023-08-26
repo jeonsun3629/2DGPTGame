@@ -14,7 +14,7 @@ public class TalkManager : MonoBehaviour
 
     void GenerateData()
     {
-        talkData.Add(1000, new string[] { "어서오게" , "어떤 동료를 원하나?" });
+        talkData.Add(1000, new string[] { "어서와." });
 
     }
 

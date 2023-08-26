@@ -11,6 +11,10 @@ public class DialogManager : MonoBehaviour
     public GameObject scanObject;
     public bool isAction;
     public int talkIndex;
+    public GameObject inputField;  // InputField 게임 오브젝트
+    public GameObject button;      // Button 게임 오브젝트
+    public GameObject messageArea; // Message Area 게임 오브젝트
+    public GameObject GPTClose;
 
     public void Action(GameObject scanObj)
     {
@@ -18,23 +22,32 @@ public class DialogManager : MonoBehaviour
         scanObject = scanObj;
         ObjData objData = scanObject.GetComponent<ObjData>();
 
-        Talk(objData.id, objData.isNPC);
-
-        talkPanel.SetActive(isAction); // 대화창을 켜거나 끈다.
+        // inputField가 활성화되어 있다면 talkPanel을 비활성화합니다.
+        if (inputField.activeSelf)
+        {
+            talkPanel.SetActive(false);
+        }
+        else
+        {
+            Talk(objData.id, objData.isNPC);
+            talkPanel.SetActive(isAction); // 대화창을 켜거나 끈다.
+        }
     }
+
 
     void Talk(int id, bool isNPC)
     {
         string talkData = talkManager.GetTalk(id, talkIndex);
 
-        if(talkData == null)
+        if (talkData == null)
         {
             isAction = false;
             talkIndex = 0;
+            ActivateUIElements(true);  // 여기서 UI 요소를 활성화
             return;
         }
 
-        if(isNPC)
+        if (isNPC)
         {
             talkText.text = talkData;
         }
@@ -45,5 +58,13 @@ public class DialogManager : MonoBehaviour
 
         isAction = true;
         talkIndex++;
+    }
+
+    public void ActivateUIElements(bool activate)
+    {
+        inputField.SetActive(activate);
+        button.SetActive(activate);
+        messageArea.SetActive(activate);
+        GPTClose.SetActive(activate);
     }
 }
