@@ -4621,7 +4621,7 @@ GameObject:
   - component: {fileID: 76680000}
   - component: {fileID: 76679999}
   m_Layer: 5
-  m_Name: Kill Text
+  m_Name: Bone Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4702,6 +4702,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76679997}
   m_CullTransparentMesh: 1
+--- !u!1 &82979295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1374729279}
+  - component: {fileID: 1374729278}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &86349806
 GameObject:
   m_ObjectHideFlags: 0
@@ -12564,30 +12581,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10000000
   per: -100
---- !u!1 &1374729277
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1374729279}
-  - component: {fileID: 1374729278}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!114 &1374729278
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1374729277}
+  m_GameObject: {fileID: 82979295}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8abb65590e1cd7945b7a350868d4edcd, type: 3}
@@ -12596,7 +12596,7 @@ MonoBehaviour:
   spawner: {fileID: 0}
   isLive: 0
   gameTime: 0
-  maxGameTime: 90
+  maxGameTime: 30
   health: 0
   maxHealth: 100
   level: 0
@@ -12617,7 +12617,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1374729277}
+  m_GameObject: {fileID: 82979295}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -14223,7 +14223,7 @@ GameObject:
   - component: {fileID: 1926276262}
   - component: {fileID: 1926276261}
   m_Layer: 5
-  m_Name: Kill Text
+  m_Name: Meat Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

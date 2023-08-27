@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            ResetGame();
             //DontDestroyOnLoad(gameObject); // 씬이 변경되어도 파괴되지 않게 함
             currentSceneName = SceneManager.GetActiveScene().name; // 씬 이름을 가져옴
             SceneManager.sceneLoaded += OnSceneLoaded; // 이벤트 핸들러를 추가
@@ -47,9 +48,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentSceneName = scene.name;
+
+        // Meat, Bone 데이터 불러오기
+        LoadGame(); // 여기에서 저장된 값을 불러옵니다.
 
         if (currentSceneName == "Field")
         {
@@ -75,7 +80,24 @@ public class GameManager : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
+        // SaveGame(); // 현재 씬이 바뀌기 전에 게임 데이터를 저장합니다.
+
         SceneManager.LoadScene(sceneName);
+    }
+
+    // 저장
+    public void SaveGame()
+    {
+        PlayerPrefs.SetInt("MeatCount", meatCount);
+        PlayerPrefs.SetInt("BoneCount", boneCount);
+        PlayerPrefs.Save();
+    }
+
+    // 불러오기
+    public void LoadGame()
+    {
+        meatCount = PlayerPrefs.GetInt("MeatCount", 0);
+        boneCount = PlayerPrefs.GetInt("BoneCount", 0);
     }
 
     public void GameStart() 
@@ -101,6 +123,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        ResetGame();  // 여기서 게임을 초기화
         StartCoroutine(GameOverRoutine());
     }
 
@@ -199,6 +222,13 @@ public class GameManager : MonoBehaviour
     {
         isLive = true;
         Time.timeScale = 1;
+    }
+
+    public void ResetGame()
+    {
+        meatCount = 0;
+        boneCount = 0;
+        SaveGame(); // 초기 상태를 저장합니다.
     }
 
 }
