@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     public float maxHealth;
     public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
+    public GameObject meatPrefab;
+    public GameObject bonePrefab;
 
     bool isLive;
 
@@ -26,6 +28,11 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
         wait = new WaitForFixedUpdate();
+    }
+
+    void Dead()
+    {
+        gameObject.SetActive(false); // 죽으면 비활성화
     }
 
     // Update is called once per frame
@@ -79,7 +86,7 @@ public class Enemy : MonoBehaviour
 
         health -= collision.GetComponent<Bullet>().damage;
         StartCoroutine(Knockback());
-        
+
         if (health > 0)
         {
             // Live, Hit Action
@@ -101,19 +108,60 @@ public class Enemy : MonoBehaviour
             if (GameManager.Instance.isLive)
                 AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
 
+            DropItemBasedOnEnemyType();
         }
-    }
 
-    IEnumerator Knockback() // 코루틴만의 반환형 인터페이스
-    {
-        yield return wait; // 다음 하나의 물리 프레임을 딜레이 시킴
-        Vector3 playerPos = GameManager.Instance.player.transform.position;
-        Vector3 dirVec = transform.position - playerPos;
-        rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
-    }
+        void DropItemBasedOnEnemyType()
+        {
+            var currentController = anim.runtimeAnimatorController as AnimatorOverrideController;
 
-    void Dead()
-    {
-        gameObject.SetActive(false); // 죽으면 비활성화
+            if (currentController != null)
+            {
+                string controllerName = currentController.name;
+
+                if (controllerName.Contains("AcEnemy 1")) // 좀비
+                {
+                    // 50% 확률로 고기 아이템 떨어뜨리기
+                    if (Random.Range(0f, 1f) < 0.6f)
+                    {
+                        DropItem("Meat"); // 죽으면 고기 생성
+                    }
+                }
+                else if (controllerName.Contains("AcEnemy 2")) // 뼈다귀
+                {
+                    // 30% 확률로 뼈다귀 아이템 떨어뜨리기
+                    if (Random.Range(0f, 1f) < 0.1f)
+                    {
+                        DropItem("Bone");
+                    }
+                }
+            }
+        }
+
+        void DropItem(string itemType)
+        {
+            GameObject droppedItem = null;
+
+            if (itemType == "Meat")
+            {
+                droppedItem = Instantiate(meatPrefab, transform.position, Quaternion.identity);
+                Debug.Log("Meat instantiated at " + transform.position);
+            }
+            else if (itemType == "Bone")
+            {
+                droppedItem = Instantiate(bonePrefab, transform.position, Quaternion.identity);
+                Debug.Log("Bone instantiated at " + transform.position);
+            }
+
+            // droppedItem을 원하는대로 처리 (예: 오브젝트 풀로 반환 등)
+        }
+
+        IEnumerator Knockback() // 코루틴만의 반환형 인터페이스
+        {
+            yield return wait; // 다음 하나의 물리 프레임을 딜레이 시킴
+            Vector3 playerPos = GameManager.Instance.player.transform.position;
+            Vector3 dirVec = transform.position - playerPos;
+            rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+        }
     }
 }

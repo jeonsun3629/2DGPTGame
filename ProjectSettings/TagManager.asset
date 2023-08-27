@@ -8,6 +8,9 @@ TagManager:
   - Area
   - Enemy
   - Bullet
+  - Meat
+  - Bone
+  - GetItem
   layers:
   - Default
   - TransparentFX
@@ -18,7 +21,7 @@ TagManager:
   - Enemy
   - 
   - Object
-  - 
+  - DropItem
   - 
   - 
   - 

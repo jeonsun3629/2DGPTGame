@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public int kill;
     public int exp;
     public int[] nextExp = { 3, 5, 10, 100, 150, 210, 280, 360, 450, 600 };
+    public int meatCount = 0;
+    public int boneCount = 0;
     [Header("# Game Object")]
     public PoolManager pool;
     public Player player;

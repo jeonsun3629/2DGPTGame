@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public enum InfoType { Exp, Level, Kill, Time, Health }
+    public enum InfoType { Exp, Level, Kill, Time, Health, Meat, Bone }
     public InfoType type;
 
     Text myText;
@@ -15,7 +15,6 @@ public class HUD : MonoBehaviour
     {
         myText = GetComponent<Text>();
         mySlider = GetComponent<Slider>();
-
     }
 
     void LateUpdate()
@@ -44,7 +43,14 @@ public class HUD : MonoBehaviour
                 float maxHealth = GameManager.Instance.maxHealth;
                 mySlider.value = curHealth / maxHealth;
                 break;
+            case InfoType.Meat:
+                myText.text = string.Format("{0:F0}", GameManager.Instance.meatCount);
+                break;
+            case InfoType.Bone:
+                myText.text = string.Format("{0:F0}", GameManager.Instance.boneCount);
+                break;
         }
     }
 
 }
+ 

@@ -22,15 +22,15 @@ public class Scanner : MonoBehaviour
 
         foreach (RaycastHit2D target in targets)
         {
-                Vector3 myPose = transform.position;
-                Vector3 targetPos = target.transform.position;
-                float curDiff = Vector3.Distance(myPose, targetPos);
+            Vector3 myPose = transform.position;
+            Vector3 targetPos = target.transform.position;
+            float curDiff = Vector3.Distance(myPose, targetPos);
 
-                if (curDiff < diff)
-                {
-                    diff = curDiff;
-                    result = target.transform;
-                }
+            if (curDiff < diff)
+            {
+                diff = curDiff;
+                result = target.transform;
+            }
         }
 
         return result;
