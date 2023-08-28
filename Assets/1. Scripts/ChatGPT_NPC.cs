@@ -13,6 +13,7 @@ namespace OpenAI
 
         [SerializeField] private RectTransform sent;
         [SerializeField] private RectTransform received;
+        [SerializeField] private Button closeButton; // GPTClose 버튼을 참조하기 위한 변수
 
         private float height;
         private OpenAIApi openai = new OpenAIApi();
@@ -39,6 +40,8 @@ namespace OpenAI
             messageArea.SetActive(false);
 
             npcManager.CreateNewNPC("TestNPC"); // 새 NPC 생성
+            closeButton.onClick.AddListener(OnConversationEnd);
+
 
         }
         public void StartConversation()
