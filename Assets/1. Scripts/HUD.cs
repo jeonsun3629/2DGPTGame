@@ -8,6 +8,8 @@ public class HUD : MonoBehaviour
     public enum InfoType { Exp, Level, Kill, Time, Health, Meat, Bone }
     public InfoType type;
 
+    public EnemyDropItem enemyDropItem;  // EnemyDropItem 클래스의 인스턴스를 참조
+
     Text myText;
     Slider mySlider;
 
@@ -44,10 +46,10 @@ public class HUD : MonoBehaviour
                 mySlider.value = curHealth / maxHealth;
                 break;
             case InfoType.Meat:
-                myText.text = string.Format("{0:F0}", GameManager.Instance.meatCount);
+                myText.text = string.Format("{0:F0}", enemyDropItem.meatCount);  // EnemyDropItem의 meatCount를 사용
                 break;
             case InfoType.Bone:
-                myText.text = string.Format("{0:F0}", GameManager.Instance.boneCount);
+                myText.text = string.Format("{0:F0}", enemyDropItem.boneCount);  // EnemyDropItem의 boneCount를 사용
                 break;
         }
     }
