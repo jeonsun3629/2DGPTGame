@@ -21,6 +21,8 @@ namespace OpenAI
 
         private bool conversationStarted = false;
 
+        public NPCManager npcManager; // NPCManager를 참조
+
         private void Start()
         {
             button.onClick.AddListener(SendReply);
@@ -35,6 +37,9 @@ namespace OpenAI
             inputField.gameObject.SetActive(false);
             button.gameObject.SetActive(false);
             messageArea.SetActive(false);
+
+            npcManager.CreateNewNPC("TestNPC"); // 새 NPC 생성
+
         }
         public void StartConversation()
         {
@@ -88,6 +93,15 @@ namespace OpenAI
                 var message = completionResponse.Choices[0].Message;
                 message.Content = message.Content.Trim();
 
+                // 메시지 내용에 따라 NPC 생성 로직 실행
+                npcManager.UpdateNPCAttributesFromChat(message.Content);  // 속성 업데이트
+
+                // "만들어줘" 키워드가 나오면 NPC 상태 저장
+                if (message.Content.Contains("만들어줘"))
+                {
+                    npcManager.SaveNPCToFile();
+                }
+
                 messages.Add(message);
                 AppendMessage(message);
             }
@@ -98,6 +112,11 @@ namespace OpenAI
 
             button.enabled = true;
             inputField.enabled = true;
+        }
+
+        public void OnConversationEnd()
+        {
+            npcManager.SaveNPCToFile(); // 대화가 끝나면 NPC 정보를 파일로 저장
         }
     }
 }
