@@ -16,8 +16,7 @@ namespace OpenAI
         [SerializeField] private Button closeButton; // GPTClose 버튼을 참조하기 위한 변수
 
         private float height;
-        private OpenAIApi openai = new OpenAIApi();
-
+        private OpenAIApi openai = new OpenAIApi("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");
         private List<ChatMessage> messages = new List<ChatMessage>();
 
         private bool conversationStarted = false;
