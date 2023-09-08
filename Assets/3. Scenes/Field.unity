@@ -12512,7 +12512,7 @@ MonoBehaviour:
   spawner: {fileID: 0}
   isLive: 0
   gameTime: 0
-  maxGameTime: 30
+  maxGameTime: 90
   health: 0
   maxHealth: 100
   level: 0
