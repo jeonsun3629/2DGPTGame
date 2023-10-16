@@ -18,7 +18,7 @@ namespace OpenAI
         private float height;
 
         private OpenAIApi openai = new OpenAIApi(); // 이곳에 API 키를 입력해주세요.
-        
+
         private List<ChatMessage> messages = new List<ChatMessage>();
 
         private bool conversationStarted = false;
@@ -28,6 +28,7 @@ namespace OpenAI
         private void Start()
         {
             button.onClick.AddListener(SendReply);
+            inputField.onEndEdit.AddListener(OnInputFieldSubmit);
 
             // Initialize the list of messages with your commands
             messages.Add(new ChatMessage() { Role = "system", Content = "너는 AI 혹은 인공지능이라는 것을 언급하면 안된다." });
@@ -45,6 +46,14 @@ namespace OpenAI
 
 
         }
+        private void OnInputFieldSubmit(string text)
+        {
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                SendReply();
+            }
+        }
+
         public void StartConversation()
         {
             if (!conversationStarted)
