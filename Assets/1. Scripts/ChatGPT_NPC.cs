@@ -13,17 +13,17 @@ namespace OpenAI
 
         [SerializeField] private RectTransform sent;
         [SerializeField] private RectTransform received;
-        [SerializeField] private Button closeButton; // GPTClose ¹öÆ°À» ÂüÁ¶ÇÏ±â À§ÇÑ º¯¼ö
+        [SerializeField] private Button closeButton; // GPTClose ë²„íŠ¼ì„ ì°¸ì¡°í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
 
         private float height;
 
-        private OpenAIApi openai = new OpenAIApi(); // ÀÌ°÷¿¡ API Å°¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.
+        private OpenAIApi openai = new OpenAIApi(); // ì´ê³³ì— API í‚¤ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.
 
         private List<ChatMessage> messages = new List<ChatMessage>();
 
         private bool conversationStarted = false;
 
-        public NPCManager npcManager; // NPCManager¸¦ ÂüÁ¶
+        public NPCManager npcManager; // NPCManagerë¥¼ ì°¸ì¡°
 
         private void Start()
         {
@@ -31,17 +31,17 @@ namespace OpenAI
             inputField.onEndEdit.AddListener(OnInputFieldSubmit);
 
             // Initialize the list of messages with your commands
-            messages.Add(new ChatMessage() { Role = "system", Content = "³Ê´Â AI È¤Àº ÀÎ°øÁö´ÉÀÌ¶ó´Â °ÍÀ» ¾ğ±ŞÇÏ¸é ¾ÈµÈ´Ù." });
-            messages.Add(new ChatMessage() { Role = "system", Content = "³× ÀÌ¸§Àº ´ÚÅÍ ºñ. ³Ê´Â »ı¸í°øÇĞ ÀÇ»çÀÌ°í ½Ç¼ö·Î Á»ºñ ¹ÙÀÌ·¯½º¸¦ ÆÛÆ®·Á ¼¼»óÀ» ¿ÂÅë Á»ºñ ÃµÁö·Î ¸¸µç°Í¿¡ ´ëÇÑ ÁËÃ¥°¨À» °¡Áö°í ÀÖ¾î." });
-            messages.Add(new ChatMessage() { Role = "system", Content = "³ÊÀÇ Áö½ÄÀº ±× ¹ÙÀÌ·¯½º¸¦ ¸ØÃß´Âµ¥ ÇÊ¿äÇÏ±â ¶§¹®¿¡ ÇÃ·¹ÀÌ¾îÀÎ ³ª¸¦ µµ¿Í Á»ºñ ¸öÃ¼¸¦ ÀÌ¿ëÇØ »õ·Î¿î µ¿·á¸¦ ¸¸µé¾î ÁÖ´Â ¿ªÇÒÀÌ¾ß." });
-            messages.Add(new ChatMessage() { Role = "system", Content = "³»°¡ ³ÊÀÇ ¿ªÇÒÀ» ¹°¾îº¸¸é, ³Ê´Â Á»ºñ ¸öÃ¼¸¦ ÀÌ¿ëÇØ »õ·Î¿î µ¿·á¸¦ ¸¸µé¾î ÁÙ ¼ö ÀÖ´Ù°í ´ë´äÇØ" });
+            messages.Add(new ChatMessage() { Role = "system", Content = "ë„ˆëŠ” AI í˜¹ì€ ì¸ê³µì§€ëŠ¥ì´ë¼ëŠ” ê²ƒì„ ì–¸ê¸‰í•˜ë©´ ì•ˆëœë‹¤." });
+            messages.Add(new ChatMessage() { Role = "system", Content = "ë„¤ ì´ë¦„ì€ ë‹¥í„° ë¹„. ë„ˆëŠ” ìƒëª…ê³µí•™ ì˜ì‚¬ì´ê³  ì‹¤ìˆ˜ë¡œ ì¢€ë¹„ ë°”ì´ëŸ¬ìŠ¤ë¥¼ í¼íŠ¸ë ¤ ì„¸ìƒì„ ì˜¨í†µ ì¢€ë¹„ ì²œì§€ë¡œ ë§Œë“ ê²ƒì— ëŒ€í•œ ì£„ì±…ê°ì„ ê°€ì§€ê³  ìˆì–´." });
+            messages.Add(new ChatMessage() { Role = "system", Content = "ë„ˆì˜ ì§€ì‹ì€ ê·¸ ë°”ì´ëŸ¬ìŠ¤ë¥¼ ë©ˆì¶”ëŠ”ë° í•„ìš”í•˜ê¸° ë•Œë¬¸ì— í”Œë ˆì´ì–´ì¸ ë‚˜ë¥¼ ë„ì™€ ì¢€ë¹„ ëª¸ì²´ë¥¼ ì´ìš©í•´ ìƒˆë¡œìš´ ë™ë£Œë¥¼ ë§Œë“¤ì–´ ì£¼ëŠ” ì—­í• ì´ì•¼." });
+            messages.Add(new ChatMessage() { Role = "system", Content = "ë‚´ê°€ ë„ˆì˜ ì—­í• ì„ ë¬¼ì–´ë³´ë©´, ë„ˆëŠ” ì¢€ë¹„ ëª¸ì²´ë¥¼ ì´ìš©í•´ ìƒˆë¡œìš´ ë™ë£Œë¥¼ ë§Œë“¤ì–´ ì¤„ ìˆ˜ ìˆë‹¤ê³  ëŒ€ë‹µí•´" });
 
 
             inputField.gameObject.SetActive(false);
             button.gameObject.SetActive(false);
             messageArea.SetActive(false);
 
-            npcManager.CreateNewNPC("TestNPC"); // »õ NPC »ı¼º
+            npcManager.CreateNewNPC("TestNPC"); // ìƒˆ NPC ìƒì„±
             closeButton.onClick.AddListener(OnConversationEnd);
 
 
@@ -97,7 +97,7 @@ namespace OpenAI
             // Complete the instruction
             var completionResponse = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
             {
-                Model = "gpt-3.5-turbo",
+                Model = "gpt-4o-mini",
                 Messages = messages
             });
 
@@ -106,11 +106,11 @@ namespace OpenAI
                 var message = completionResponse.Choices[0].Message;
                 message.Content = message.Content.Trim();
 
-                // ¸Ş½ÃÁö ³»¿ë¿¡ µû¶ó NPC »ı¼º ·ÎÁ÷ ½ÇÇà
-                npcManager.UpdateNPCAttributesFromChat(message.Content);  // ¼Ó¼º ¾÷µ¥ÀÌÆ®
+                // ë©”ì‹œì§€ ë‚´ìš©ì— ë”°ë¼ NPC ìƒì„± ë¡œì§ ì‹¤í–‰
+                npcManager.UpdateNPCAttributesFromChat(message.Content);  // ì†ì„± ì—…ë°ì´íŠ¸
 
-                // "¸¸µé¾îÁà" Å°¿öµå°¡ ³ª¿À¸é NPC »óÅÂ ÀúÀå
-                if (message.Content.Contains("¸¸µé¾îÁà"))
+                // "ë§Œë“¤ì–´ì¤˜" í‚¤ì›Œë“œê°€ ë‚˜ì˜¤ë©´ NPC ìƒíƒœ ì €ì¥
+                if (message.Content.Contains("ë§Œë“¤ì–´ì¤˜"))
                 {
                     npcManager.SaveNPCToFile();
                 }
@@ -129,7 +129,7 @@ namespace OpenAI
 
         public void OnConversationEnd()
         {
-            npcManager.SaveNPCToFile(); // ´ëÈ­°¡ ³¡³ª¸é NPC Á¤º¸¸¦ ÆÄÀÏ·Î ÀúÀå
+            npcManager.SaveNPCToFile(); // ëŒ€í™”ê°€ ëë‚˜ë©´ NPC ì •ë³´ë¥¼ íŒŒì¼ë¡œ ì €ì¥
         }
     }
 }
