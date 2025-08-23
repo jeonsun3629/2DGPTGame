@@ -4,7 +4,7 @@
 
 [![Unity](https://img.shields.io/badge/Unity-2022.3+-black.svg?style=flat&logo=unity)](https://unity.com/)
 [![C#](https://img.shields.io/badge/C%23-239120?style=flat&logo=c-sharp&logoColor=white)](https://docs.microsoft.com/en-us/dotnet/csharp/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--3.5--turbo-4129919?style=flat&logo=openai&logoColor=white)](https://openai.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4.0-4129919?style=flat&logo=openai&logoColor=white)](https://openai.com/)
 
 ## 📖 프로젝트 개요
 
